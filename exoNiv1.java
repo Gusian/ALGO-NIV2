@@ -1,3 +1,5 @@
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class exoNiv1 {
@@ -8,18 +10,27 @@ public class exoNiv1 {
     boolean frites =false;
     boolean soda =false;
     int compt=0;
-      Scanner clavier = new Scanner(System.in);
+    LocalTime heure = LocalTime.now();
+    LocalTime heureCommande= heure.plusMinutes(20);
+    Scanner clavier = new Scanner(System.in);
+    DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm");
+    
+
 
     while (compt<4) {
 
+        try {
+
+        
         switch(compt) {
             case 0:
         System.out.println("Voulez-vous un steak ? (true/false)");
         steak = clavier.nextBoolean();
         if (steak) {
             compt+=1;
+            heureCommande = heureCommande.plusMinutes(20);
         }else{
-            compt+=2;
+            compt+=2;;
         }
         break;
             case 1:
@@ -33,19 +44,29 @@ public class exoNiv1 {
         compt+=1;
         break;
             case 3:
-        System.out.println("Soda (true) ou eau gazeuse (false");
+        System.out.println("Soda (true) ou eau gazeuse (false)");
         soda = clavier.nextBoolean();
         compt+=1;
         break;
+    
+        
+    
         default:        
         System.out.println("Erreur de saisie, veuillez recommencer.");
         }
-
+    }catch (Exception e) {
+        System.out.println("Erreur de saisie");
+        compt-=1;
+        
     }
+}
 
-    System.out.println("Merci pour votre commande, ça sera près dans 20min ");
+    String heureFormat = heureCommande.format(format);
+
+    System.out.println("Merci pour votre commande, ça sera prête à " + heureFormat + " !");
     clavier.close();
 
-    }
+    
 
+}
 }
